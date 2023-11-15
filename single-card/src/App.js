@@ -23,26 +23,35 @@ function App() {
 }
 
 function Accordion({ items }) {
+  const [curOpen, setCurOpen] = useState(null);
   return (
     <div className="accordion">
       {items.map((item, i) => (
-        <Item num={i} title={item.title} text={item.text} />
+        <Item
+          num={i}
+          title={item.title}
+          text={item.text}
+          curOpen={curOpen}
+          onOPen={setCurOpen}
+        >
+          {item.text}
+        </Item>
       ))}
     </div>
   );
 }
 
-function Item({ num, title, text }) {
-  const [isOpen, setIsOpen] = useState(false);
+function Item({ num, title, curOpen, onOPen, children }) {
+  const isOpen = num === curOpen;
   function handToggle() {
-    setIsOpen((isOpen) => !isOpen);
+    onOPen(isOpen ? null : num);
   }
   return (
     <div className={`item ${isOpen ? "open" : ""}`} onClick={handToggle}>
       <p className="number">{num < 9 ? `0${num + 1}` : { num } + 1}</p>
       <p className="title">{title}</p>
       <p className="icon">{isOpen ? "-" : "+"}</p>
-      {isOpen && <div className="content-box">{text}</div>}
+      {isOpen && <div className="content-box">{children}</div>}
     </div>
   );
 }
