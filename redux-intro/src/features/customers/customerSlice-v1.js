@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+
 const initialStateCustomer = {
     fullName:"",
     nationalID:"",
