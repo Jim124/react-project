@@ -10,7 +10,7 @@ const customerSlice = createSlice({
     initialState:initialStateCustomer,
     reducers:{
        createCustomer:{
-        prepare(fullName,nationalID,createAt){
+        prepare(fullName,nationalID){
             return {
                 payload:{fullName,nationalID,createAt:new Date().toISOString()}
             }
