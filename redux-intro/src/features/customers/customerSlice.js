@@ -18,7 +18,7 @@ const customerSlice = createSlice({
         reducer(state,action){
             state.fullName = action.payload.fullName;
             state.nationalID = action.payload.nationalID;
-            state.createAt = action.payload.createAt;
+            state.createdAt = action.payload.createAt;
         }
        },
        updateName(state,action){
