@@ -28,7 +28,8 @@ function CreateCabinForm() {
     },
   });
   function onSubmit(data) {
-    mutate(data);
+    const newCabin = { ...data, image: data.image[0] };
+    mutate(newCabin);
   }
   function onError(errors) {
     // console.log(errors);
@@ -40,6 +41,7 @@ function CreateCabinForm() {
           type='text'
           id='name'
           {...register('name', { required: 'This field is required' })}
+          disabled={isCreating}
         />
       </FormRow>
       <FormRow label={'Maximum capacity'} error={errors?.maxCapacity?.message}>
@@ -50,6 +52,7 @@ function CreateCabinForm() {
             required: 'This field is required',
             min: { value: 1, message: 'Capacity should be at least 1' },
           })}
+          disabled={isCreating}
         />
       </FormRow>
       <FormRow label={'Regular price'} error={errors?.regularPrice?.message}>
@@ -60,6 +63,7 @@ function CreateCabinForm() {
             required: 'This field is required',
             min: { value: 1, message: 'Price should be at least 1' },
           })}
+          disabled={isCreating}
         />
       </FormRow>
       <FormRow label={'Discount'} error={errors?.discount?.message}>
@@ -73,6 +77,7 @@ function CreateCabinForm() {
               parseInt(value) <= parseInt(getValues().regularPrice) ||
               'Discount should be less than the regular price',
           })}
+          disabled={isCreating}
         />
       </FormRow>
       <FormRow
@@ -84,11 +89,16 @@ function CreateCabinForm() {
           id='description'
           defaultValue=''
           {...register('description', { required: 'This field is required' })}
+          disabled={isCreating}
         />
       </FormRow>
 
       <FormRow label={'Cabin photo'}>
-        <FileInput id='image' accept='image/*' />
+        <FileInput
+          id='image'
+          accept='image/*'
+          {...register('image', { required: 'this field is required' })}
+        />
       </FormRow>
       <FormRow>
         {/* type is an HTML attribute! */}
