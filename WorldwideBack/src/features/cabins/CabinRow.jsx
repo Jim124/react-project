@@ -5,21 +5,22 @@ import { formatCurrency } from '../../utils/helpers';
 import CreateCabinForm from './CreateCabinForm';
 import Modal from '../../ui/Modal';
 import ConfirmDelete from '../../ui/ConfirmDelete';
+import Table from '../../ui/Table';
 
 import { useDeleteCabin } from './useDeleteCabin';
 import { useCreateCabin } from './useCreateCabin';
 
-const TableRow = styled.div`
-  display: grid;
-  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-  column-gap: 2.4rem;
-  align-items: center;
-  padding: 1.4rem 2.4rem;
+// const TableRow = styled.div`
+//   display: grid;
+//   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
+//   column-gap: 2.4rem;
+//   align-items: center;
+//   padding: 1.4rem 2.4rem;
 
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-`;
+//   &:not(:last-child) {
+//     border-bottom: 1px solid var(--color-grey-100);
+//   }
+// `;
 
 const Img = styled.img`
   display: block;
@@ -75,7 +76,7 @@ function CabinRow({ cabin }) {
   }
   return (
     <>
-      <TableRow>
+      <Table.Row>
         <Img src={image} />
         <Cabin>{name}</Cabin>
         <div>Fits up to {maxCapacity}</div>
@@ -98,12 +99,12 @@ function CabinRow({ cabin }) {
             <Modal.Window name={'edit-cabin'}>
               <CreateCabinForm cabinToEdit={cabin} />
             </Modal.Window>
-            <Modal.Open>
+            <Modal.Open opens={'delete'}>
               <button>
                 <HiTrash />
               </button>
             </Modal.Open>
-            <Modal.Window>
+            <Modal.Window name={'delete'}>
               <ConfirmDelete
                 resourceName='cabin'
                 onConfirm={() => deleteCabin(cabinId)}
@@ -112,7 +113,7 @@ function CabinRow({ cabin }) {
             </Modal.Window>
           </Modal>
         </div>
-      </TableRow>
+      </Table.Row>
     </>
   );
 }
