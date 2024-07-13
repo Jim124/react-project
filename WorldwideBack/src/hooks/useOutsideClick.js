@@ -5,7 +5,6 @@ export const useOutSideClick = (handler, listenCapturing = true) => {
   useEffect(() => {
     function handleClick(e) {
       if (ref.current && !ref.current.contains(e.target)) {
-        console.log('click outside');
         handler();
       }
     }
