@@ -34,6 +34,7 @@ export const useBookings = () => {
     onError: (error) => {
       toast.error(error.message);
     },
+    retry: false,
   });
 
   // prefetch method
