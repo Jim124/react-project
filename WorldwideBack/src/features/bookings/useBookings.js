@@ -40,7 +40,7 @@ export const useBookings = () => {
   // prefetch method
   const pageCount = Math.ceil(count / PAGE_SIZE);
 
-  //next page
+  // prefetch next page
   if (page < pageCount) {
     queryClient.prefetchQuery({
       queryKey: ['bookings', filter, sortBy, page + 1],
@@ -48,6 +48,7 @@ export const useBookings = () => {
     });
   }
 
+  // prefetch prev page
   if (page > 1)
     queryClient.prefetchQuery({
       queryKey: ['bookings', filter, sortBy, page - 1],

@@ -3,29 +3,31 @@ import Spinner from '../../ui/Spinner';
 import CabinRow from './CabinRow';
 import Table from '../../ui/Table';
 import Menus from '../../ui/Menus';
-import { useSearchParams } from 'react-router-dom';
+import Pagination from '../../ui/Pagination';
+import Empty from '../../ui/Empty';
 
 function CabinTable() {
-  const { isLoading, cabins } = useCabins();
-  const [searchParams] = useSearchParams();
+  const { isLoading, cabins, count } = useCabins();
+  // const [searchParams] = useSearchParams();
   if (isLoading) return <Spinner />;
+  if (!cabins) return <Empty resourceName={'cabins'} />;
 
   //1 filter
-  const filterdValue = searchParams.get('discount') || 'all';
-  let filteredCabins;
-  if (filterdValue === 'all') filteredCabins = cabins;
-  if (filterdValue === 'no')
-    filteredCabins = cabins.filter((cabin) => cabin.discount === 0);
-  if (filterdValue === 'with')
-    filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
+  // const filterdValue = searchParams.get('discount') || 'all';
+  // let filteredCabins;
+  // if (filterdValue === 'all') filteredCabins = cabins;
+  // if (filterdValue === 'no')
+  //   filteredCabins = cabins.filter((cabin) => cabin.discount === 0);
+  // if (filterdValue === 'with')
+  //   filteredCabins = cabins.filter((cabin) => cabin.discount > 0);
 
-  // sortBy
-  const sortBy = searchParams.get('sortBy') || 'startDate-asc';
-  const [field, directtion] = sortBy.split('-');
-  const modifer = directtion === 'asc' ? 1 : -1;
-  const sortedCabins = filteredCabins.sort(
-    (a, b) => (a[field] - b[field]) * modifer
-  );
+  // // sortBy
+  // const sortBy = searchParams.get('sortBy') || 'startDate-asc';
+  // const [field, directtion] = sortBy.split('-');
+  // const modifer = directtion === 'asc' ? 1 : -1;
+  // const sortedCabins = filteredCabins.sort(
+  //   (a, b) => (a[field] - b[field]) * modifer
+  // );
 
   return (
     <Menus>
@@ -39,9 +41,12 @@ function CabinTable() {
           <div></div>
         </Table.Header>
         <Table.Body
-          data={sortedCabins}
+          data={cabins}
           render={(cabin) => <CabinRow key={cabin.id} cabin={cabin} />}
         />
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );
