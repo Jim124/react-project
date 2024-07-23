@@ -1,9 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getCabins } from '../../services/apiCabins';
 import { useSearchParams } from 'react-router-dom';
+import { PAGE_SIZE } from '../../utils/constranst';
 
 export const useCabins = () => {
   const [searchParams] = useSearchParams();
+  const queryClient = useQueryClient();
 
   //Filter
   const filterVal = searchParams.get('discount') || 'all';
@@ -26,6 +28,8 @@ export const useCabins = () => {
 
   //pagination
   const page = !searchParams.get('page') ? 1 : Number(searchParams.get('page'));
+
+  // query
   const {
     isLoading,
     data: { data: cabins, count } = {},
@@ -34,5 +38,20 @@ export const useCabins = () => {
     queryKey: ['cabins', filter, sortBy, page],
     queryFn: () => getCabins({ filter, sortBy, page }),
   });
+
+  // prefetch query
+  const pageCount = Math.ceil(count / PAGE_SIZE);
+  if (page < pageCount)
+    queryClient.prefetchQuery({
+      queryKey: ['cabins', filter, sortBy, page + 1],
+      queryFn: () => getCabins({ filter, sortBy, page: page + 1 }),
+    });
+
+  if (page > 1)
+    queryClient.prefetchQuery({
+      queryKey: ['cabins', filter, sortBy, page - 1],
+      queryFn: () => getCabins({ filter, sortBy, page: page - 1 }),
+    });
+
   return { isLoading, cabins, error, count };
 };
