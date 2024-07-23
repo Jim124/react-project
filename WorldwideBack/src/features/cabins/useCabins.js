@@ -9,7 +9,6 @@ export const useCabins = () => {
 
   //Filter
   const filterVal = searchParams.get('discount') || 'all';
-  console.log(filterVal);
   let filter;
   if (filterVal === 'all') filter = null;
   if (filterVal === 'no')
